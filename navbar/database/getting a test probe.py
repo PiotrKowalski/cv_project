@@ -89,7 +89,7 @@ while(hasNextPage):
         print("blad")
         NextPage += 1
 
-    NextPage += 1
+    NextPage += 20
     time.sleep(1)
 
     try:
