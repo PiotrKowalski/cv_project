@@ -1,0 +1,199 @@
+{% extends "navbar/base.html" %}
+
+{% load static %}
+{% block content %}
+
+
+{% if anime %}
+{#{% for key in anime %}#}
+
+        <div class="main_tile">
+            <div class="anime_main_details">
+                <div class="container">
+                    <div class="row" id="anime_id">
+                        <div class="col-lg-12">
+                            <div class="anime_tile_title">
+                                    <h2 class="unselectable">
+                                        {{ anime.title }}
+                                    </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="anime_tile_details_content">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="anime_image_details">
+                                                <img src="{{ anime.imageURL }}" alt="{{ anime.title }}" class="unselectable">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="anime_rating_details">
+                                                <p style="border-bottom: #ecf0f1 solid 1px; padding-bottom: 4px;">Ocena: {{ anime.average_score }}</p>
+                                                <p>Popularność: {{ anime.popularity }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                {% if episode_list %}
+                                    <div class="episodes_emitted_details">
+                                        <h2 style="padding-bottom: 5px;">Odcinki</h2>
+                                        <div class="container">
+                                            {% for episode in episode_list %}
+                                                <div class="row">
+                                                    <div class="col-lg-11">
+                                                        <p>{{ episode.title }}</p>
+                                                    </div>
+                                                    <div class="col-lg-1">
+                                                        <a href="{{ episode.url }}">Idź</a>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                    {% if episode_list.has_other_pages %}
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class=" anime_detail_pagination">
+{#                                                    {% for key in episode_list %}#}
+                                                        <ul class="pagination justify-content-end">
+    {#                                                    {% for episode_list in episode_list.0 %}#}
+                                                            {% if episode_list.has_previous %}
+                                                                <li class="page-item"><a class="page-link" href="?page={{ episode_list.previous_page_number }}">&laquo;</a></li>
+                                                            {% else %}
+                                                                <li class="page-item disabled" ><a class="page-link" href="?page=1">&laquo;</a></li>
+                                                            {% endif %}
+                                                            {% for i in episode_list.paginator.page_range %}
+                                                                {% if episode_list.number == i %}
+                                                                    <li class="page-item active"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                                                {% else %}
+                                                                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                            {% if episode_list.has_next %}
+                                                                <li class="page-item"><a class="page-link" href="?page={{ episode_list.next_page_number }}">&raquo;</a></li>
+                                                            {% else %}
+                                                                <li class="page-item disabled" ><a class="page-link" href="?page={{ episode_list.number }}">&raquo;</a></li>
+                                                            {% endif %}
+    {#                                                    {% endfor %}#}
+                                                        </ul>
+{#                                                    {% endfor %}#}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main_tile">
+            <div class="anime_description">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="anime_tile_title">
+                                    <h2 class="unselectable">Opis</h2>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="anime_description_text_details">
+                                    <p>{{ anime.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main_tile">
+            <div class="anime_details">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="anime_tile_title">
+                                    <h2 class="unselectable">TBD ->Szczegóły</h2>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="anime_details_content">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <div class="anime_details_content_key">
+                                                <p>Gatunek: </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <p>
+                                                {% for genre in anime.genres_array %}
+                                                {{ genre }},
+                                                {% endfor %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="anime_details_content_key">
+                                        <p>ilość odcinków: </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <p>{{ anime.episodes }} x {{ anime.duration }}min</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="anime_details_content_key">
+                                        <p>Rozpoczęcie emisji: </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        {% if anime.start_date == '0001-01-01' %}
+                                            <p>Brak danych</p>
+                                        {% else %}
+                                            <p>{{ anime.start_date }}</p>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="anime_details_content_key">
+                                        <p>Koniec emisji: </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        {% if anime.start_date == '0001-01-01' %}
+                                            <p>Brak danych</p>
+                                        {% else %}
+                                            <p>{{ anime.end_date }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main_tile">
+
+        </div>
+
+
+{#{% endfor %}#}
+
+{% endif %}
+
+
+{% endblock %}

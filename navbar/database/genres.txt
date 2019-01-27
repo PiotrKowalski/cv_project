@@ -1,0 +1,19 @@
+Action
+Adventure
+Comedy
+Drama
+Sci-Fi
+Mystery
+Supernatural
+Fantasy
+Sports
+Romance
+Slice of Life
+Horror
+Psychological
+Thriller
+Ecchi
+Mecha
+Music
+Mahou Shoujo
+Hentai

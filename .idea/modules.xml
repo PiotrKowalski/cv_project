@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/anime_website.iml" filepath="$PROJECT_DIR$/.idea/anime_website.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../AO/.idea/mysite.iml" filepath="$PROJECT_DIR$/../AO/.idea/mysite.iml" />
+    </modules>
+  </component>
+</project>

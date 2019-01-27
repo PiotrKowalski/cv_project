@@ -1,0 +1,139 @@
+{% load static %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
+{% load icons %}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=PT+Serif" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'navbar/style.css' %}">
+    <title>{% block title %}< Student project, not for commerical use >{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div class="header">
+{#<!--<img src="{% static 'navbar/images/background.jpg' %}" class="img-fluid" alt="Responsive image">-->#}
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9"></div>
+            <div class="col-lg-3">
+                <div class="login_block">
+                    {% if user.is_anonymous %}
+                        <ul>
+                            <li>
+                                <p class="unselectable"><a class="nav-link" href="{% url 'login' %}">Zaloguj się </a></p>
+                            </li>
+                            <li>
+                                <p><a class="nav-link" href="{% url 'navbar:signup' %}">Zarejestruj się</a></p>
+                            </li>
+                        </ul>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                        <ul>
+                            <li>
+                                <p class="unselectable"><a class="nav-link" href="{% url 'navbar:user' user.username %}">Witaj {{ user.username }}</a></p>
+                            </li>
+                            <li>
+                                <p><a class="nav-link" href="{% url 'logout' %}">Wyloguj</a></p>
+                            </li>
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="nav_color_row">
+        <div class="container">
+            <div class="row">
+                <!--<div class="col-lg-1"></div>-->
+                <div class="col-lg-12">
+                    <div class="navbar">
+                                <ul class="nav justify-content-center">
+                                    <li class="nav-item"><a class="nav-link" href="{% url 'navbar:index' %}">Strona główna</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{% url 'navbar:listTV' %}">Lista anime</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{% url 'navbar:listMovie' %}">Lista filmów</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{% url 'navbar:genres' %}">Gatunki</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">Grupy dyskusyjne</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">Forum</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">Kitsune-subs</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">Gadzety otaku</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">Donejty</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">Radio online</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">Usuń reklamy</a></li>
+                                </ul>
+                    </div>
+                </div>
+                <!--<div class="col-lg-1"></div>-->
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                {% block content %}{% endblock %}
+            </div>
+            <div class="col-lg-3">
+                <div class="sidebar">
+                    <div class="sidebar_tile">
+                        <h4 class="unselectable">RADIO ONLINE</h4>
+                    </div>
+                    <div class="sidebar_tile">
+                        <div class="search_index">
+                            <form class="search_form" method="get" action="/search" id="searchform">
+                                <input class="search_field" id="searchbox" name="anime" type="text" value="{{ request.GET.q }}" placeholder="Szukaj..."/>
+                                <input class="submit" type="submit" value="Wyszukaj"/>
+                            </form>
+                        </div>
+
+                    </div>
+                    {% block sidebar %}
+                        {% if sidebar_anime %}
+                        <div class="sidebar_tile">
+                            <ul class="nav flex-column">
+                                <h4 class="unselectable">Emitowane</h4>
+                                {% for key in sidebar_anime %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'navbar:anime' anime_id=key.id anime_url=key.url %}">{{ key.title }}</a>
+                                    </li>
+                                {% endfor%}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <p class="unselectable">♥ Our website does not own any files i.e. anime or anime films. We only share the links that contain
+                        the videos, thus they are not a part of our possession. The website, A-O.ninja, works as
+                        a list of links from different sources that are commonly used. No copyrighted files
+                        are to be found on our website. Any claims are supposed to be addressed directly to the video-sharing
+                        websites where the content is uploaded. We also use free computing power for experiments in
+                        the field of digital currencies.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <p class="footer_copyright unselectable">♥ Copyright 2018  | Strona została wykonana przez Piotra Kowalskiego | Student project, not for commercial use | Layout wzorowany na a-o.ninja </p>
+                </div>
+                <div class="col-lg-6">
+                    <p></p>
+                    <p class="footer_links"><a href="{% url 'navbar:DMCA' %}">DMCA</a> | Kontakt | Regulamin | Polityka prywatności | Cookies</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

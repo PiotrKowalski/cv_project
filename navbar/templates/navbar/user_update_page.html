@@ -1,0 +1,188 @@
+{% extends "navbar/base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+        <div class="main_tile">
+            <div class="user_main_details">
+                <div class="container">
+                    <div class="row" id="anime_id">
+                        <div class="col-lg-12">
+                            <div class="user_tile_title">
+                                    <h2 class="unselectable">
+                                        Witaj {{ user_page.username }}
+                                    </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user_tile_details_content">
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="user_image_details">
+                                                <img src="{{ anime.imageURL }}" alt="{{ anime.title }}" class="unselectable">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="user_rating_details">
+                                                <p style="border-bottom: #ecf0f1 solid 1px; padding-bottom: 4px;">Ocena: {{ anime.average_score }}</p>
+                                                <p>Popularność: {{ anime.popularity }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-10">
+                                <div class="col-lg-12">
+                                    <form class="user_form" method="post" action="" id="user_change_form">
+                                    {% csrf_token %}
+                                        <div class="user_details_content">
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <div class="user_details_content_key">
+                                                        <p>Nazwa użytkownika: </p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    <p>{{ user_page.username }}</p>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="user_change_form">
+                                                        <input class="change_field" id="searchbox" name="username" type="text" value="" placeholder="Nazwa użytkownika">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <div class="user_details_content_key">
+                                                    <p>Imię: </p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    <p>{{ user_page.first_name }} </p>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="user_change_form">
+                                                        <input class="change_field" id="searchbox" name="first_name" type="text" value="" placeholder="Imię">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <div class="user_details_content_key">
+                                                    <p>Nazwisko: </p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    <p>{{ user_page.last_name }} </p>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="user_change_form">
+                                                        <input class="change_field" id="searchbox" name="last_name" type="text" value="" placeholder="Nazwisko">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <div class="user_details_content_key">
+                                                        <p>E-mail: </p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    <p>{{ user_page.email }}</p>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="user_change_form">
+                                                        <input class="change_field" id="searchbox" name="email" type="text" value="" placeholder="E-mail">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <div class="user_details_content_key">
+                                                        <p>Czy jest online?: </p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    {% if user_page.is_active %}
+                                                        <p>TAK</p>
+                                                    {% else %}
+                                                        <p>NIE</p>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <div class="user_details_content_key">
+                                                        <p>Czy należy do adminsitracji?: </p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    {% if user_page.is_staff %}
+                                                        <p>TAK</p>
+                                                    {% else %}
+                                                        <p>NIE</p>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <div class="user_details_content_key">
+                                                        <p>Data dołączenia: </p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <p>{{ user_page.date_joined }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <div class="user_details_content_key">
+                                                        <p>Grupy: </p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <p>
+                                                        {% for key in user_page.groups.all %}
+                                                            {{ key }}
+                                                        {% empty %}
+                                                            Brak grup
+                                                        {% endfor %}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                </div>
+                                                <div class="col-lg-3">
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <ul class="nav justify-content-center">
+                                                    <li class="nav-item"><a class="nav-link" href="{% url 'navbar:user' user.username %}">Wróć</a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <input class="submit" type="submit" value="Zmień dane">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% for key in field_names %}
+        <p>{{ key }}</p>
+
+    {% endfor %}
+
+
+{% endblock %}
