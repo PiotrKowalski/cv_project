@@ -1,0 +1,7 @@
+Django==2.1.2
+django-bootstrap4==0.0.7
+django-crispy-forms==1.7.2
+django-icons==0.2.1
+django-random-queryset==0.1.1
+psycopg2==2.7.5
+pytz==2018.6
