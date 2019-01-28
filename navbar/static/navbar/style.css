@@ -5,7 +5,6 @@
 }
 
 body {
-    /*background-image: url("{% static 'navbar/images/background.jpg' %}");*/
     background-color: #23232d;
 }
 
@@ -14,7 +13,6 @@ body {
 
 }
 .header {
-    /*background-image: url("{% static 'navbar/images/background.jpg' %}");*/
 }
 
 .sidebar {
