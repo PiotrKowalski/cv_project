@@ -96,7 +96,7 @@ DATABASES = {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'anime_website',
             'USER': 'postgres',
-            'PASSWORD': '5gno4mkf',
+            'PASSWORD': 'abcd',
             'HOST': 'localhost',
             'PORT': '5432',
     }
