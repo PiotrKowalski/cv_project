@@ -1,5 +1,7 @@
 # CV Project Website
 
+Application is called "navbar" and holds sourcecode of the website.
+
 Interesting things used in the project:
 
 * Fetching database from [GraphQL API](https://github.com/PiotrKowalski/cv_project/blob/master/navbar/database/getting_a_test_probe.py)
