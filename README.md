@@ -2,7 +2,7 @@
 
 Interesting things used in the project:
 
-* Fetching database from GraphQL API `https://github.com/PiotrKowalski/cv_project/blob/master/navbar/database/getting_a_test_probe.py`
+* Fetching database from [GraphQL API](https://github.com/PiotrKowalski/cv_project/blob/master/navbar/database/getting_a_test_probe.py)
 * Using Q objects for dynamic filtering 
 ```python
 def get_queryset(self):
