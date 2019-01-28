@@ -33,13 +33,4 @@ def get_queryset(self):
 * Class based view approach to the project
 
 
-To deploy this project on your local machine you need:
-* virtualenv
-* PostgreSQL
-
-1. First, clone this project on your computer.
- ```
- 
- ```
- 
- Here is how to install PostgreSQL on 
+The project is hosted on [heroku](https://piotr-cv-project.herokuapp.com/)
