@@ -18,7 +18,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect
 from .models import NavTitle, Anime, Announcments, Genre
 
@@ -304,7 +304,7 @@ class UserView(DetailView):
         return context
 
 
-class UserUpdateView(UpdateView, LoginRequiredMixin):
+class UserUpdateView(UserPassesTestMixin, UpdateView ):
     model = User
     fields = ['username', 'first_name', 'last_name', 'email']
     context_object_name = "user_page"
@@ -313,6 +313,9 @@ class UserUpdateView(UpdateView, LoginRequiredMixin):
     slug_url_kwarg = 'username'
 
     redirect_field_name = 'index'
+
+    def test_func(self):
+        return self.request.user.username.lower() == self.kwargs['username'].lower()
 
     def post(self, request, *args, **kwargs):
         old_username = self.kwargs['username']
