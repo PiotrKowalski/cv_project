@@ -8,19 +8,19 @@
         <div class="container">
 {#            {% if genre_list %}#}
                 <div class="genres_form">
-                    <form class="genres_form" method="post" action="genres/result">
-                        {% csrf_token %}
-                        {% for genre in genre_list %}
-                            <div class="form-check">
-                                <label class="form-check-label" for="{{ genre.name }}">
-                                    <input class="form-check-input" type="checkbox" value="{{ genre.name }}" id="{{ genre.name }}">
-                                    <span class="checkmark"></span>
-                                    <p class="unselectable"><b>{{ genre.name }}</b></p>
-                                </label>
-                            </div>
-                        {% endfor %}
-                        <input class="submit d-flex justify-content-end" type="submit" value="Wyszukaj"/>
-                    </form>
+{#                    <form class="genres_form" method="post" action="genres/result">#}
+{#                        {% csrf_token %}#}
+{#                        {% for genre in genre_list %}#}
+{#                            <div class="form-check">#}
+{#                                <label class="form-check-label" for="{{ genre.name }}">#}
+{#                                    <input class="form-check-input" type="checkbox" value="{{ genre.name }}" id="{{ genre.name }}">#}
+{#                                    <span class="checkmark"></span>#}
+{#                                    <p class="unselectable"><b>{{ genre.name }}</b></p>#}
+{#                                </label>#}
+{#                            </div>#}
+{#                        {% endfor %}#}
+{#                        <input class="submit d-flex justify-content-end" type="submit" value="Wyszukaj"/>#}
+{#                    </form>#}
                     <form method="get">
 {#                        {% csrf_token %}#}
                         <div class="form-check">

@@ -135,7 +135,7 @@
                                                     </p>
                                                 </div>
                                             </div>
-                                            {% if user.is_authenticated %}
+                                            {% if user_page|lower == user.username|lower %}
                                                 <div class="row">
                                                     <div class="col-lg-3">
                                                     </div>
@@ -156,10 +156,10 @@
                 </div>
             </div>
         </div>
-    {% for key in field_names %}
-        <p>{{ key }}</p>
-
-    {% endfor %}
+{#    {% for key in field_names %}#}
+{#        <p>{{ key }}</p>#}
+{##}
+{#    {% endfor %}#}
 
 
 {% endblock %}
