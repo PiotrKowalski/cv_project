@@ -53,7 +53,7 @@
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div class="user_change_form">
-                                                        <input class="change_field" id="searchbox" name="username" type="text" value="" placeholder="Nazwa użytkownika">
+                                                        {{ form.username }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -68,7 +68,7 @@
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div class="user_change_form">
-                                                        <input class="change_field" id="searchbox" name="first_name" type="text" value="" placeholder="Imię">
+                                                        {{ form.first_name }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -83,7 +83,7 @@
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div class="user_change_form">
-                                                        <input class="change_field" id="searchbox" name="last_name" type="text" value="" placeholder="Nazwisko">
+                                                        {{ form.last_name }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -98,7 +98,7 @@
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div class="user_change_form">
-                                                        <input class="change_field" id="searchbox" name="email" type="text" value="" placeholder="E-mail">
+                                                        {{ form.email }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -167,7 +167,7 @@
                                                     </ul>
                                                 </div>
                                                 <div class="col-lg-3">
-                                                    <input class="submit" type="submit" value="Zmień dane">
+                                                    <input class="submit" name="submit" type="submit" value="Zmień dane">
                                                 </div>
                                             </div>
                                         </div>
@@ -183,5 +183,4 @@
 {#        <p>{{ key }}</p>#}
 {##}
 {#    {% endfor %}#}
-
 {% endblock %}

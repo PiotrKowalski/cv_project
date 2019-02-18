@@ -17,7 +17,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect
 from .models import NavTitle, Anime, Announcments, Genre
@@ -294,63 +294,38 @@ class UserView(DetailView):
     slug_url_kwarg = 'username'
 
     def get_context_data(self, **kwargs):
-        field_names = User._meta.get_fields()
-
         context = super(UserView, self).get_context_data(**kwargs)
         context['sidebar_anime'] = sidebar_anime
         context['anime'] = Anime.objects.all()
-        context['field_names'] = field_names
         # And so on for more models
         return context
 
 
-class UserUpdateView(UserPassesTestMixin, UpdateView ):
+class UserUpdateView(UserPassesTestMixin, UpdateView):
     model = User
     fields = ['username', 'first_name', 'last_name', 'email']
     context_object_name = "user_page"
     template_name = 'navbar/user_update_page.html'
     slug_field = 'username'
     slug_url_kwarg = 'username'
-
-    redirect_field_name = 'index'
+    # success_url = reverse_lazy('navbar:user')
+    redirect_field_name = 'next'
 
     def test_func(self):
         return self.request.user.username.lower() == self.kwargs['username'].lower()
 
-    def post(self, request, *args, **kwargs):
-        old_username = self.kwargs['username']
+    def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+        self.object = form.save()
+        return super().form_valid(form)
 
-        user = self.get_object()
-        # user.update(**)
-
-        username = self.request.POST.get('username')
-        first_name = self.request.POST.get('first_name')
-        last_name = self.request.POST.get('last_name')
-        email = self.request.POST.get('email')
-
-        if username:
-            user.username = username
-        if first_name:
-            user.first_name = first_name
-        if last_name:
-            user.last_name = last_name
-        if email:
-            user.email = email
-
-        user.save()
-
-        # return super().post(request, *args, **kwargs)
-        if username:
-            return redirect('/profile/' + user.username)
-        else:
-            return redirect('/profile/' + old_username)
+    def get_success_url(self):
+        return reverse('navbar:user', kwargs={'username': self.object.username})
 
     def get_context_data(self, **kwargs):
-        field_names = User._meta.get_fields()
 
         context = super(UserUpdateView, self).get_context_data(**kwargs)
         context['sidebar_anime'] = sidebar_anime
         context['anime'] = Anime.objects.all()
-        context['field_names'] = field_names
         # And so on for more models
         return context
