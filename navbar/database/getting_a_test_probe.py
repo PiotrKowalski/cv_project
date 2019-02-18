@@ -20,7 +20,7 @@ from navbar.models import Anime
 Anime.objects.all().delete()
 
 hasNextPage = True
-NextPage = 180
+NextPage = 220
 
 while(hasNextPage):
     query = '''
