@@ -3,7 +3,7 @@ from .models import Anime
 from django.contrib.auth.models import User
 
 
-class SearchForm(forms.Form):
+class GenresForm(forms.Form):
     model = Anime
     type = (
         ('and', 'AND'),

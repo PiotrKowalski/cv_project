@@ -6,7 +6,7 @@ from django.views.generic.edit import FormView
 from django.views.generic import UpdateView
 from django.views.generic import CreateView
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from navbar.forms import SearchForm
+from navbar.forms import GenresForm
 from django.views.generic.list import MultipleObjectMixin
 from django.views.generic.edit import FormMixin
 from django.views.generic.edit import ProcessFormView
@@ -27,6 +27,10 @@ sidebar_anime = Anime.objects.filter(status='RELEASING').order_by('-popularity')
 
 
 class IndexView(ListView):
+    """
+    Index Page
+    Url: https://127.0.0.1:8000
+    """
     template_name = 'navbar/index.html'
     queryset = Anime.objects.all()
     context_object_name = 'anime'
@@ -49,6 +53,11 @@ class IndexView(ListView):
 
 
 class AnimeView(DetailView):
+    """
+    Anime object detail page
+    Url: http://127.0.0.1:8000/anime/<int:anime_id>/<slug:anime_url>
+    Example Url: http://127.0.0.1:8000/anime/225844/tensei-shitara-slime-datta-ken
+    """
     model = Anime
     template_name = 'navbar/anime.html'
     slug_field = 'url'
@@ -68,14 +77,28 @@ class AnimeView(DetailView):
         return context
 
 
-class DMCAView(DetailView):
-        def get(self, request, *args, **kwargs):
-            return render(request, 'navbar/DMCA.html', context={
-                'sidebar_anime': sidebar_anime,
-            })
+class DMCAView(View):
+    """
+    DMCA page
+    Url: http://127.0.0.1:8000/DMCA
+    """
+    def get(self, request, *args, **kwargs):
+        return render(request, 'navbar/DMCA.html', context={
+            'sidebar_anime': sidebar_anime,
+        })
+
+
+"""
+Next 4 views should be merged into one and query should be distinguishable because of the initial letter 
+or the type of anime - anime series or movie. 
+"""
 
 
 class AnimeListView(ListView):
+    """
+    Anime series list page sorted by title and paginated by 23
+    Url: http://127.0.0.1:8000/anime-list
+    """
     # model = Anime
     template_name = 'navbar/anime_list.html'
     queryset = Anime.objects.all().exclude(media_format='MOVIES', is_adult=True).order_by('title')
@@ -94,6 +117,11 @@ class AnimeListView(ListView):
 
 
 class AnimeListLetterView(ListView):
+    """
+    Anime series list page beginning with certain letter, sorted by title and paginated by 23
+    Url: http://127.0.0.1:8000/anime-list/<slug:letter>
+    Example url: http://127.0.0.1:8000/anime-list/A
+    """
     model = Anime
     template_name = 'navbar/anime_list.html'
     context_object_name = 'anime_list'
@@ -111,6 +139,10 @@ class AnimeListLetterView(ListView):
 
 
 class AnimeMovieListView(ListView):
+    """
+    Anime TV list page sorted by title and paginated by 23
+    Url: http://127.0.0.1:8000/anime-list-movies
+    """
     # model = Anime
     template_name = 'navbar/anime_list_movies.html'
     queryset = Anime.objects.filter(media_format='MOVIE').exclude(is_adult=True).order_by('title')
@@ -127,6 +159,11 @@ class AnimeMovieListView(ListView):
 
 
 class AnimeMovieListLetterView(ListView):
+    """
+    Anime TV list page beginning with certain letter, sorted by title and paginated by 23
+    Url: http://127.0.0.1:8000/anime-list-movies/<slug:letter>
+    Example url: http://127.0.0.1:8000/anime-list-movies/A
+    """
     model = Anime
     template_name = 'navbar/anime_list_movies.html'
     context_object_name = 'anime_list'
@@ -144,49 +181,21 @@ class AnimeMovieListLetterView(ListView):
 
 
 class GenresView(ListView, FormMixin, ProcessFormView):
+    """
+    Getting list of anime using custom form GenresForm and GET method
+    Anime are filtered by chosen genres (genres) and OR/AND logical gate (type)
+    Anime are sorted by title and paginated by 23
+    Url: http://127.0.0.1:8000/genres
+    Url: http://127.0.0.1:8000/genres?type=<type>&genres=<genre>
+    Example url: http://127.0.0.1:8000/genres?type=and&genres=Fantasy&genres=Sports
+    """
     model = Anime
     template_name = 'navbar/genres.html'
-    form_class = SearchForm
+    form_class = GenresForm
     context_object_name = 'anime_list'
     success_url = '#'
     paginate_by = 23
     result = None
-
-    # def form_valid(self, form):
-    #     # This method is called when valid form data has been POSTed.
-    #     # It should return an HttpResponse.
-    #     # genres = self.request.POST.getlist('genres')
-    #     genres = form.cleaned_data['genres']
-    #     if genres:
-    #         genres = form.cleaned_data['genres']
-    #         new_arr = []
-    #         for key in genres:
-    #             key = '{' + key + '}'
-    #             new_arr.append(key)
-    #         queries = [Q(genres_array__contains=genre) for genre in new_arr]
-    #         query = queries.pop()
-    #         for item in queries:
-    #             query |= item
-    #
-    #         self.result = Anime.objects.filter(query)
-    #         print(query)
-    #         print(self.result)
-    #         return super(GenresView, self).get_context_data()
-    #         # self.request.session['anime_list'] = self.result
-    #         # return render(self.request, template_name=self.template_name, context={
-    #         #     'anime_list': result,
-    #         #     'form': self.form_class(),
-    #         #     'sidebar_anime': sidebar_anime,
-    #         #     'genre_list': Genre.objects.all(),
-    #         # })
-    #         # return super().form_valid(form)
-    #         # return HttpResponseRedirect(self.get_success_url())
-    #
-    #         # return GenresView.as_view()(self.request, result)
-    #
-    #         #     # return super().form_valid(form)
-    #         #
-    #         # return super(GenresView, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super(GenresView, self).get_context_data(**kwargs)
@@ -221,30 +230,13 @@ class GenresView(ListView, FormMixin, ProcessFormView):
             arr = []
             return arr
 
-    # def post(self, request, *args, **kwargs):
-    #     form_class = self.get_form_class()
-    #     form = self.get_form(form_class)
-    #     if form.is_valid():
-    #         genres = form.cleaned_data['genres']
-    #         new_arr = []
-    #         for key in genres:
-    #             key = '{'+key+'}'
-    #             new_arr.append(key)
-    #         queries = [Q(genres_array__contains=genre) for genre in new_arr]
-    #         query = queries.pop()
-    #         for item in queries:
-    #             query |= item
-    #         result = Anime.objects.filter(query)
-    #         print(result)
-    #         return render(request, template_name=self.template_name, context={
-    #             'anime_list': result,
-    #             'form': self.form_class(),
-    #             'sidebar_anime': sidebar_anime,
-    #             'genre_list': Genre.objects.all(),
-    #         })
-
 
 class SearchView(ListView):
+    """
+    Getting list of anime using GET method
+    Url: http://127.0.0.1:8000/search?anime=<text>
+    Example url: http://127.0.0.1:8000/search?anime=mob
+    """
     model = Anime
     template_name = 'navbar/search.html'
     context_object_name = 'anime_list'
@@ -265,6 +257,10 @@ class SearchView(ListView):
 
 
 class SignUpView(CreateView):
+    """
+    Sign up page
+    Url: http://127.0.0.1:8000/accounts/signup
+    """
     template_name = 'navbar/signup.html'
     form_class = UserCreationForm
     success_url = reverse_lazy('index')
@@ -287,6 +283,11 @@ class AnimeLoginView(LoginView):
 
 
 class UserView(DetailView):
+    """
+    User detail page
+    Url: http://127.0.0.1:8000/profile/<slug:username>
+    Example url: http://127.0.0.1:8000/profile/Yekoss
+    """
     model = User
     context_object_name = "user_page"
     template_name = 'navbar/user_page.html'
@@ -302,6 +303,13 @@ class UserView(DetailView):
 
 
 class UserUpdateView(UserPassesTestMixin, UpdateView):
+    """
+    User detail update page
+    User fields are updated using ModelForm
+    This view can be only accessed by authorized user - logged in user's username must be the same as the username slug
+    Url: http://127.0.0.1:8000/profile/<slug:username>
+    Example url: http://127.0.0.1:8000/profile/Yekoss
+    """
     model = User
     fields = ['username', 'first_name', 'last_name', 'email']
     context_object_name = "user_page"
