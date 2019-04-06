@@ -108,12 +108,14 @@ while(hasNextPage):
         endDateMonth = k['endDate']['month']
         endDateYear = k['endDate']['year']
 
-        if startDateDay is None or startDateMonth is None or startDateYear is None:
+        if (startDateDay is None or startDateMonth is None or startDateYear is None) or \
+                (startDateDay not in range(0, 31) or startDateMonth not in range(0, 12)):
             startDateYear = 1
             startDateMonth = 1
             startDateDay = 1
 
-        if endDateDay is None or endDateMonth is None or endDateYear is None:
+        if (endDateDay is None or endDateMonth is None or endDateYear is None) or \
+                (endDateYear not in range(0, 31) or endDateMonth not in range(0, 12)):
             endDateYear = 1
             endDateMonth = 1
             endDateDay = 1
